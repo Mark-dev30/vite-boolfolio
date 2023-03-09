@@ -1,8 +1,12 @@
 
 <script>
 import axios from 'axios';
+import ProjectCard from './ProjectCard.vue';
 
 export default {
+    components: {
+        ProjectCard
+    },
     name: 'ProjectMain',
     data() {
         return {
@@ -37,12 +41,7 @@ export default {
         <div class="row ">
             <div class="col-12 d-flex flex-wrap justify-content-center">
                 <div class="card m-2" style="width: 18rem;" v-for="project in projects" :key="project.id">
-                    <img :src="project.cover_image != null ? project.cover_image : 'https://picsum.photos/300/200'"
-                        class="img-fluid" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                    </div>
+                    <ProjectCard :project="project" :baseUrl="baseUrl" />
                 </div>
             </div>
         </div>
