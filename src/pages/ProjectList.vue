@@ -2,7 +2,7 @@
 <script>
 import axios from 'axios';
 import { store } from '../store';
-import ProjectCard from './components/ProjectCard.vue';
+import ProjectCard from '../components/ProjectCard.vue';
 
 export default {
     components: {
@@ -22,7 +22,8 @@ export default {
             this.loading = true;
             axios.get(`${this.store.baseUrl}/api/projects`).then((response) => {
                 if (response.data.success) {
-                    this.projects = response.data.projects
+                    this.projects = response.data.projects.data
+                    console.log(response.data)
                     this.loading = false;
 
                 }
