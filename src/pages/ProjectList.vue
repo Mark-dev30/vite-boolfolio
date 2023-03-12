@@ -23,7 +23,6 @@ export default {
             axios.get(`${this.store.baseUrl}/api/projects`).then((response) => {
                 if (response.data.success) {
                     this.projects = response.data.projects.data
-                    console.log(response.data)
                     this.loading = false;
 
                 }
