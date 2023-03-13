@@ -1,14 +1,19 @@
 <script>
 import axios from 'axios';
+import { store } from '../store';
 export default {
     name: 'Contacts',
     data() {
         return {
+            store,
             name: '',
             surname: '',
             email: '',
             phone: '',
-            text: ''
+            text: '',
+            /* errors: null, */
+            success: false,
+            /* loading: false */
         }
     },
     methods: {
@@ -18,8 +23,30 @@ export default {
                 surname: this.surname,
                 email: this.email,
                 phone: this.phone,
-                text: this.text
+                text: this.text,
+                success: false
             }
+
+            /* this.loading = true,
+
+                this.errors = null */
+
+            axios.post(`${this.store.baseUrl}/api/contacts`, data,).then((response) => {
+
+                if (!response.data.success) {
+                    this.errors = response.data.errors
+                    /* this.loading = false */
+                }
+                else {
+                    this.name = '',
+                        this.surname = '',
+                        this.email = '',
+                        this.phone = '',
+                        this.text = '',
+                        this.success = true
+                    /* this.loading = false */
+                }
+            });
         }
     },
 }
@@ -33,7 +60,7 @@ export default {
             <div class="col-12 info">
                 <div class="row content-info w-75">
                     <div class="col-6">
-                        <h4><i class="fa-solid fa-desktop"></i> ONLINE</h4>
+                        <h4><i class="fa-solid fa-desktop"></i>ONLINE</h4>
                         <div>
                             <h6>Website:</h6>
                             <a href="#">www.loremipsum.com</a>
@@ -63,23 +90,23 @@ export default {
             </div>
             <div class="col-6 contact-us mb-5">
                 <h4 class="text-center text-white">Contact Us</h4>
-                <form @submit.prevent="sendForm">
+                <form  @submit.prevent="sendForm">
                     <div class="container d-flex justify-content-center">
                         <div class="row g-2 w-75 mt-3 mb-5">
                             <div class="col-6">
-                                <input type="text" name="name" class="form-control" placeholder="First name" v-model="name">
+                                <input type="text" name="name" id="name" class="form-control" placeholder="First name" v-model="name">
                             </div>
                             <div class="col-6">
-                                <input type="text" name="surname" class="form-control" placeholder="Last name" v-model="surname">
+                                <input type="text" name="surname" id="surname" class="form-control" placeholder="Last name" v-model="surname">
                             </div>
                             <div class="col-6">
-                                <input type="email" name="email" class="form-control" placeholder="Email" v-model="email">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Email" v-model="email">
                             </div>
                             <div class="col-6">
-                                <input type="phone" name="phone" class="form-control" placeholder="Phone" v-model="phone">
+                                <input type="phone" name="phone" id="phone" class="form-control" placeholder="Phone" v-model="phone">
                             </div>
                             <div class="col-12">
-                                <textarea class="form-control" name="text" placeholder="Leave a text here"  style="height: 100px" v-model="text"></textarea>
+                                <textarea class="form-control" name="text" id="text" placeholder="Leave a text here"  style="height: 100px" v-model="text"></textarea>
                             </div>
                             <div class="col-12 text-center mt-2">
                                 <button type="submit" class="btn btn-primary">Send</button>
